@@ -1,8 +1,5 @@
 package com.company;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class Main {
@@ -13,9 +10,38 @@ public class Main {
 //            Statement statement = conn.createStatement()) {
 //            statement.execute("CREATE TABLE contacts (name TEXT, phone INTEGER, email TEXT)");
         try {
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:/Volumes/Production/Courses/Programs/JavaPrograms/TestDB/testjava.db");
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:testjava.db");
+            //conn.setAutoCommit(false);
+
             Statement statement = conn.createStatement();
-            statement.execute("CREATE TABLE contacts (name TEXT, phone INTEGER, email TEXT)");
+            statement.execute("CREATE TABLE  if not exists contact" +
+                    " (name TEXT, phone INTEGER, email TEXT)");
+//
+//            statement.execute("insert into contact (name, phone, email) " +
+//                    "values('sami', 898989, 'sami@email.com')");
+//
+//            statement.execute("insert into contact (name, phone, email) " +
+//                    "values('johnny', 1020293, 'appleseed@email.com')");
+
+            statement.execute("update contact set phone=2222 where name = 'jane'");
+
+//            statement.execute("delete from contact where name = 'jane'");
+
+
+            statement.execute("select * from contact");
+            ResultSet results = statement.getResultSet();
+            while (results.next()) {
+                System.out.println(results.getString("name") + " " +
+                                results.getInt("phone") + " " +
+                                results.getString("email"));
+            }
+
+            results.close();
+
+
+
+
+
 
             statement.close();
             conn.close();
@@ -27,4 +53,5 @@ public class Main {
             System.out.println("Something went wrong: " + e.getMessage());
         }
     }
+
 }
