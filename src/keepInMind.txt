@@ -1,0 +1,5 @@
+resultset
+    Moves the cursor forward one row from its current position.
+
+    .next()
+        if there is a next item in the list or object or map keep going else stop

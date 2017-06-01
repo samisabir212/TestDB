@@ -2,34 +2,40 @@ package com.company;
 import java.sql.*;
 
 
-public class Main {
+public class Main {  //<--- class deffinition
+
+    public static final String DB_NAME = "testjava.db";
+    public static final String CONNECTION_STRING = "/Users/sami/Desktop/TestDB/" + DB_NAME;
+
+    public static final String TABLE_CONTACTS = "contact";
+
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_PHONE = "phone";
+    public static final String COLUMN_EMAIL = "EMAIL";
+
+
+
+
+
 
     public static void main(String[] args) {
 
-//        try(Connection conn = DriverManager.getConnection("jdbc:sqlite:/Volumes/Production/Courses/Programs/JavaPrograms/TestDB/testjava.db");
-//            Statement statement = conn.createStatement()) {
-//            statement.execute("CREATE TABLE contacts (name TEXT, phone INTEGER, email TEXT)");
         try {
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:testjava.db");
-            //conn.setAutoCommit(false);
+            Connection conn = DriverManager.getConnection(CONNECTION_STRING);
 
             Statement statement = conn.createStatement();
-            statement.execute("CREATE TABLE  if not exists contact" +
-                    " (name TEXT, phone INTEGER, email TEXT)");
-//
-//            statement.execute("insert into contact (name, phone, email) " +
-//                    "values('sami', 898989, 'sami@email.com')");
-//
-//            statement.execute("insert into contact (name, phone, email) " +
-//                    "values('johnny', 1020293, 'appleseed@email.com')");
 
-            statement.execute("update contact set phone=2222 where name = 'jane'");
+            statement.execute("DROP TABLE IF EXISTS" + TABLE_CONTACTS);
 
-//            statement.execute("delete from contact where name = 'jane'");
+            statement.execute("CREATE TABLE IF NOT EXISTS" + TABLE_CONTACTS +
+                    "(" + COLUMN_NAME + "text, " +
+                    COLUMN_PHONE + "integer, " +
+                    COLUMN_EMAIL + "text," +
+                    "(");
 
+            statement.execute("INSERT INTO " +TABLE_CONTACTS+ "(" + COLUMN_NAME)
 
-            statement.execute("select * from contact");
-            ResultSet results = statement.getResultSet();
+            ResultSet results = statement.executeQuery("select * from contact");
             while (results.next()) {
                 System.out.println(results.getString("name") + " " +
                                 results.getInt("phone") + " " +
